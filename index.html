@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Bianca ❤️</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        body { 
+            background: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
+            color: #f1f5f9;
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Fundo de Estrelas */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        /* Estilo do Texto Fluido */
+        .text-line { 
+            display: block;
+            margin-bottom: 2.5rem;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 1.5s ease, transform 1.5s ease;
+            font-weight: 300;
+            line-height: 1.8;
+            letter-spacing: 0.02em;
+        }
+
+        .text-line.show { opacity: 1; transform: translateY(0); }
+
+        .cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1em;
+            background-color: #f472b6;
+            margin-left: 5px;
+            animation: blink 1s infinite;
+            vertical-align: middle;
+        }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        main, #login-screen { position: relative; z-index: 2; }
+
+        /* Ajuste para mobile */
+        @media (max-width: 640px) {
+            .text-line { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center">
+
+    <div id="particles-js"></div>
+
+    <div id="login-screen" class="fixed inset-0 z-50 flex items-center justify-center bg-[#020617] transition-all duration-1000">
+        <div class="text-center p-8 max-w-sm w-full">
+            <h2 class="text-white text-sm tracking-[0.3em] uppercase mb-12 opacity-60">Mensagem Privada</h2>
+            <input type="password" id="pass-input" class="w-full p-2 bg-transparent border-b border-white/10 text-white text-center text-lg focus:outline-none focus:border-pink-500/50 transition-all placeholder:text-gray-800" placeholder="Senha">
+            <button onclick="checkPass()" class="mt-12 text-[10px] tracking-[0.5em] uppercase text-gray-500 hover:text-white transition-colors">
+                Abrir
+            </button>
+        </div>
+    </div>
+
+    <main id="main-content" class="hidden w-full max-w-2xl px-8 pt-24 pb-40 opacity-0 transition-opacity duration-2000">
+        <header class="mb-20 text-center">
+            <h1 class="text-4xl font-light tracking-tighter text-white">Oi, Bianca.</h1>
+        </header>
+
+        <div id="text-container">
+            </div>
+
+        <footer id="final-signature" class="hidden mt-20 pt-10 text-center border-t border-white/5">
+            <p class="text-pink-400 text-2xl font-light italic">Com todo o meu carinho,</p>
+            <p class="text-[10px] text-gray-600 mt-8 tracking-widest uppercase">2026</p>
+        </footer>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    
+    <script>
+        // Configuração de Estrelas Cintilantes
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 100, density: { enable: true, value_area: 800 } },
+                color: { value: "#ffffff" },
+                shape: { type: "circle" },
+                opacity: { value: 0.5, random: true, anim: { enable: true, speed: 1, opacity_min: 0.1, sync: false } },
+                size: { value: 1.5, random: true },
+                line_linked: { enable: false },
+                move: { enable: true, speed: 0.2, direction: "none", random: true, straight: false, out_mode: "out" }
+            }
+        });
+
+        // O SEU TEXTO ORIGINAL
+        const letterBlocks = [
+            "só queria te dizer o que as palavras às vezes não conseguem expressar nas nossas conversas rápidas do dia a dia.",
+            "A verdade é que eu gosto muito de ti. Admiro a mulher incrível que és: a tua força para enfrentar o trabalho pesado, a tua dedicação linda com as crianças e esse teu jeito que me faz querer estar perto de ti, mesmo quando a distância ou a rotina tentam atrapalhar.",
+            "Sobre o presente que não pôde ficar contigo agora... não te preocupes. O que eu sinto por ti não cabe numa caixa e não depende de um objeto.",
+            "O meu maior desejo é ver-te bem, em paz e feliz. Se o tempo agora exige paciência e segredo, eu aceito o desafio, porque sei que o que estamos a construir vale a pena.",
+            "Escrevi este carta para que saibas que, para mim, tu não és apenas uma 'conversa no WhatsApp'. Tu és a pessoa que eu escolhi para apoiar, para fazer rir e para esperar o tempo que for preciso.",
+            "Enquanto a mudança não chega e as coisas não se ajeitam, quero ser o teu refúgio e o teu descanso.",
+            "Espero que estes chocolates te lembrem da doçura que trazes para a minha vida. Estou aqui, hoje e sempre, a torcer por ti."
+        ];
+
+        async function typeWriter(text, element) {
+            return new Promise(resolve => {
+                let i = 0;
+                function type() {
+                    if (i < text.length) {
+                        element.innerHTML += text.charAt(i);
+                        i++;
+                        // Scroll automático suave enquanto digita
+                        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+                        setTimeout(type, 40);
+                    } else { resolve(); }
+                }
+                type();
+            });
+        }
+
+        async function startLetter() {
+            const container = document.getElementById('text-container');
+            for (const text of letterBlocks) {
+                const p = document.createElement('p');
+                p.className = 'text-line text-lg md:text-xl text-gray-300';
+                container.appendChild(p);
+                
+                const span = document.createElement('span');
+                p.appendChild(span);
+                const cursor = document.createElement('span');
+                cursor.className = 'cursor';
+                p.appendChild(cursor);
+                
+                await new Promise(r => setTimeout(r, 800));
+                p.classList.add('show');
+                
+                await typeWriter(text, span);
+                cursor.remove();
+                await new Promise(r => setTimeout(r, 1500)); // Pausa entre as ideias
+            }
+            document.getElementById('final-signature').classList.remove('hidden');
+        }
+
+        function checkPass() {
+            const input = document.getElementById('pass-input').value.toLowerCase().trim();
+            const correctPass = "araraquara"; // Altere a senha se quiser
+            
+            if (input === correctPass) {
+                const login = document.getElementById('login-screen');
+                login.classList.add('opacity-0');
+                setTimeout(() => {
+                    login.remove();
+                    const main = document.getElementById('main-content');
+                    main.classList.remove('hidden');
+                    setTimeout(() => {
+                        main.classList.add('opacity-100');
+                        startLetter();
+                    }, 500);
+                }, 1000);
+            } else {
+                document.getElementById('pass-input').classList.add('border-red-500');
+                setTimeout(() => document.getElementById('pass-input').classList.remove('border-red-500'), 500);
+            }
+        }
+    </script>
+</body>
+</html>
