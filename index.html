@@ -63,6 +63,10 @@
 </head>
 <body class="flex flex-col items-center">
 
+    <audio id="bg-music" loop>
+        <source src="Pedro Valença e Gabriella Stehling - Tantos Mares (Vídeo Oficial) [ebFgUXAKAzc].mp3" type="audio/mpeg">
+    </audio>
+
     <div id="particles-js"></div>
 
     <div id="login-screen" class="fixed inset-0 z-50 flex items-center justify-center bg-[#020617] transition-all duration-1000">
@@ -75,13 +79,12 @@
         </div>
     </div>
 
-    <main id="main-content" class="hidden w-full max-w-2xl px-8 pt-24 pb-40 opacity-0 transition-opacity duration-2000">
+    <main id="main-content" class="hidden w-full max-w-2xl px-8 pt-24 pb-40 opacity-0 transition-opacity duration-1000">
         <header class="mb-20 text-center">
             <h1 class="text-4xl font-light tracking-tighter text-white">Oi, Bianca.</h1>
         </header>
 
-        <div id="text-container">
-            </div>
+        <div id="text-container"></div>
 
         <footer id="final-signature" class="hidden mt-20 pt-10 text-center border-t border-white/5">
             <p class="text-pink-400 text-2xl font-light italic">Com todo o meu carinho,</p>
@@ -92,7 +95,7 @@
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     
     <script>
-        // Configuração de Estrelas Cintilantes
+        // Configuração de Estrelas
         particlesJS('particles-js', {
             particles: {
                 number: { value: 100, density: { enable: true, value_area: 800 } },
@@ -105,15 +108,14 @@
             }
         });
 
-        // O SEU TEXTO ORIGINAL
         const letterBlocks = [
-            "só queria te dizer o que as palavras às vezes não conseguem expressar nas nossas conversas rápidas do dia a dia.",
-            "A verdade é que eu gosto muito de ti. Admiro a mulher incrível que és: a tua força para enfrentar o trabalho pesado, a tua dedicação linda com as crianças e esse teu jeito que me faz querer estar perto de ti, mesmo quando a distância ou a rotina tentam atrapalhar.",
+           "só queria te dizer o que as palavras às vezes não conseguem expressar nas nossas conversas rápidas do dia a dia.",
+            "A verdade é que eu gosto muito de ti. Admiro a mulher incrível que és: a tua força para enfrentar as suas batalhas do dia a dia, o seu jeito de lidar e se dedicar com as crianças, e esse teu jeito de uma mulher que é tão madura e ao mesmo tempo tão doce me faz querer estar perto de ti, mesmo quando a distância ou a rotina tentam atrapalhar.",
             "Sobre o presente que não pôde ficar contigo agora... não te preocupes. O que eu sinto por ti não cabe numa caixa e não depende de um objeto.",
             "O meu maior desejo é ver-te bem, em paz e feliz. Se o tempo agora exige paciência e segredo, eu aceito o desafio, porque sei que o que estamos a construir vale a pena.",
-            "Escrevi este carta para que saibas que, para mim, tu não és apenas uma 'conversa no WhatsApp'. Tu és a pessoa que eu escolhi para apoiar, para fazer rir e para esperar o tempo que for preciso.",
+            "Escrevi esta carta para que saibas que, para mim, tu não és apenas uma 'conversa no WhatsApp'. Tu és a pessoa que eu escolhi para apoiar, para fazer rir e para esperar o tempo que for preciso.",
             "Enquanto a mudança não chega e as coisas não se ajeitam, quero ser o teu refúgio e o teu descanso.",
-            "Espero que estes chocolates te lembrem da doçura que trazes para a minha vida. Estou aqui, hoje e sempre, a torcer por ti."
+            "Estou aqui, hoje e sempre, a torcer por ti."
         ];
 
         async function typeWriter(text, element) {
@@ -123,9 +125,8 @@
                     if (i < text.length) {
                         element.innerHTML += text.charAt(i);
                         i++;
-                        // Scroll automático suave enquanto digita
                         window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-                        setTimeout(type, 40);
+                        setTimeout(type, 45); // Velocidade da escrita
                     } else { resolve(); }
                 }
                 type();
@@ -150,18 +151,24 @@
                 
                 await typeWriter(text, span);
                 cursor.remove();
-                await new Promise(r => setTimeout(r, 1500)); // Pausa entre as ideias
+                await new Promise(r => setTimeout(r, 1500)); 
             }
             document.getElementById('final-signature').classList.remove('hidden');
         }
 
         function checkPass() {
             const input = document.getElementById('pass-input').value.toLowerCase().trim();
-            const correctPass = "araraquara"; // Altere a senha se quiser
-            
+            const correctPass = "bb"; 
+            const music = document.getElementById('bg-music');
+
             if (input === correctPass) {
+                // Inicia a música
+                music.volume = 0.5;
+                music.play().catch(e => console.log("Áudio bloqueado pelo navegador", e));
+
                 const login = document.getElementById('login-screen');
                 login.classList.add('opacity-0');
+                
                 setTimeout(() => {
                     login.remove();
                     const main = document.getElementById('main-content');
@@ -169,11 +176,12 @@
                     setTimeout(() => {
                         main.classList.add('opacity-100');
                         startLetter();
-                    }, 500);
+                    }, 100);
                 }, 1000);
             } else {
-                document.getElementById('pass-input').classList.add('border-red-500');
-                setTimeout(() => document.getElementById('pass-input').classList.remove('border-red-500'), 500);
+                const inputEl = document.getElementById('pass-input');
+                inputEl.classList.add('border-red-500');
+                setTimeout(() => inputEl.classList.remove('border-red-500'), 500);
             }
         }
     </script>
